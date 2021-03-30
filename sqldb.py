@@ -1,7 +1,6 @@
 import csv
 
-# There is something wrong with this because you get a lot of repeats in here
-# not the best.
+
 def format_insert_gene(inFileName):
     outFile = open("create_gene_table.sql", "w")
 
@@ -49,3 +48,28 @@ def format_insert_project(inFileName):
             outFile.write("\nINSERT INTO project (project_id, authors, proj_date, taxid, organism) VALUES (\""
                           + line[0] + "\", \"" + line[1] + "\", \"" + line[2] + "\", \"" + line[3] + "\", \""
                           + line[4] + "\");")
+    outFile.close()
+
+def format_insert_expression(inFileName):
+    outFile = open("create_expression_table.sql", "w")
+
+    outFile.write("CREATE TABLE expression (\n")
+    outFile.write("\teid, NOT NULL AUTO-INCREMENT,\n")
+    outFile.write("\tgene_symbol varchar(100) NOT NULL,\n")
+    outFile.write("\tproject_id varchar(100),\n")
+    outFile.write("\tsample_id varchar(100),\n")
+    outFile.write("\tdirection varchar(100),\n")
+    outFile.write("\tPRIMARY KEY (eid)\n")
+    outFile.write(");")
+
+
+
+    with open(inFileName, "r") as inFile:
+        reader = csv.reader(inFile)
+        for line in reader:
+            if len(line[0]) > 0:
+                outFile.write("\nINSERT INTO expression (gene_symbol, "
+                              + "project_id, sample_id, direction) VALUES (\""
+                              + line[0] + "\", \"" + line[4] + "\", \"" + line[3]
+                              + "\", \"" + line[2] + "\");")
+    outFile.close()
