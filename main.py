@@ -15,7 +15,7 @@ if __name__ == '__main__':
     #SOFT.expression_data(dict2, "GSE156544_family.soft", samples2, "GSE160163")
     #SOFT.project_info("GSE160163_family.soft")
 
-    KEGG_Pathways.pullPathways("data_dump.csv")
+    #KEGG_Pathways.pullPathways("data_dump.csv")
 
 
     #Creating the sql data dump files.

@@ -15,7 +15,8 @@ def pullPathways(inFileName):
         for key in gene_symbols:
             if len(key) > 0:
                 try:
-                    symbol2entrezid(key)
+                    uid = symbol2entrezid(key)
+                    writeOutPathway(uid)
                 except:
                     print(key + ": bad")
                     continue
@@ -29,8 +30,12 @@ def symbol2entrezid(gene_symbol):
     record = Entrez.read(handle)
     handle.close()
 
-    # Send the first uid retrieved on to be searched in Kegg.
-    keggid = entrezid2KEGGid(record["IdList"][0])
+    # Send the first uid retrieved on.
+    return record["IdList"][0]
+
+def writeOutPathway(uid):
+
+    keggid = entrezid2KEGGid(uid)
     pathids = KEGGId2PathwayId(keggid)
 
     for pathid in pathids:
