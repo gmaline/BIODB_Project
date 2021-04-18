@@ -1,18 +1,22 @@
 from __future__ import print_function
 import csv
-
 import goatools
 from goatools.anno.genetogo_reader import Gene2GoReader
 from goatools.obo_parser import GODag
 from goatools.base import download_ncbi_associations
 from goatools.base import download_go_basic_obo
 import genes_NCBI_9606_ProteinCoding
-import KEGG_Pathways
-
 from goatools.goea.go_enrichment_ns import GOEnrichmentStudyNS
 import os
 
-def GO_enrichment(inputFile, project):
+# Name: pullGOenrichment
+# Summary: from a list of differentially expressed geneids,
+#           find the enriched GO terms as compared to a population
+#           of possible genes (all protein coding human genes)
+# Parameters: inputFile - the file containg the geneids + gene symbols
+#             project - the name of the project for labeling purposes.
+# Return: NA - writes output to a .csv and .txt file.
+def pullGOenrichment(inputFile, project):
     GeneID2nt_hum = genes_NCBI_9606_ProteinCoding.GENEID2NT
 
     obo_fname = download_go_basic_obo()
@@ -77,4 +81,4 @@ def GO_enrichment(inputFile, project):
     goeaobj.wr_xlsx("go_enrichment" + project + ".csv", goea_results_sig)
     goeaobj.wr_txt("go_enrichment" + project + ".txt", goea_results_sig)
 
-GO_enrichment("geneids_GSE156544.csv", "GSE156544")
+pullGOenrichment("geneids_GSE156544.csv", "GSE156544")
