@@ -108,3 +108,9 @@ def project_info(inFileName):
 
         inFile.close()
     outFile.close()
+
+# Parsing the first project.
+samples1 = ["^SAMPLE = GSM4733279", "^SAMPLE = GSM4733280", "^SAMPLE = GSM4733281", "^SAMPLE = GSM4733282"]
+dict1 = id2gene("GSE156544_family.soft")
+expression_data(dict1, "GSE156544_family.soft", samples1, "GSE156544")
+project_info("GSE156544_family.soft")
