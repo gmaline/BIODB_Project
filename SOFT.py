@@ -32,7 +32,7 @@ def id2gene(inFileName):
 #             projectID - the project id to assign to each of the records in the
 #                         data dump.
 def expression_data(conversion, inFileName, sample_list, projectID):
-    with open("data_dump2.csv", "w", newline='') as outFile:
+    with open("expression_data" + projectID + ".csv", "w", newline='') as outFile:
         writer = csv.writer(outFile)
         with open (inFileName, "r") as inFile:
             reader = csv.reader(inFile, delimiter='\t')
@@ -78,12 +78,13 @@ def in_sample_list(check, slist):
 # Summary: This iterates through the SOFT file table and stores information
 #          about the project. Writes results to a csv file.
 # Parameters: inFileName - the name of the SOFT file to iterate through
-def project_info(inFileName):
-    with open("project_info_data_dump.csv", "a", newline='') as outFile:
+#             proj_name - the name of the project for the output file.
+def project_info(inFileName, projectID):
+    with open("project_info_" + projectID + ".csv", "a", newline='') as outFile:
         writer = csv.writer(outFile)
         with open (inFileName, "r") as inFile:
             reader = csv.reader(inFile, delimiter='\t')
-            projectID = ""
+            projID = ""
             authors = []
             date = ""
             taxid = ""
@@ -104,7 +105,7 @@ def project_info(inFileName):
             str_authors = ""
             for author in authors:
                 str_authors += author + "; "
-            writer.writerow([projectID, str_authors, date, taxid, organism])
+            writer.writerow([projID, str_authors, date, taxid, organism])
 
         inFile.close()
     outFile.close()
@@ -113,4 +114,4 @@ def project_info(inFileName):
 samples1 = ["^SAMPLE = GSM4733279", "^SAMPLE = GSM4733280", "^SAMPLE = GSM4733281", "^SAMPLE = GSM4733282"]
 dict1 = id2gene("GSE156544_family.soft")
 expression_data(dict1, "GSE156544_family.soft", samples1, "GSE156544")
-project_info("GSE156544_family.soft")
+project_info("GSE156544_family.soft", "GSE156544")

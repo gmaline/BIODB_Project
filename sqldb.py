@@ -1,18 +1,25 @@
 import csv
 
-
+# Name: create_gene
+# Summary: create the gene table DDL
+# Parameters: NA
+# Return: NA
 def create_gene():
-    outFile = open("create_gene_table.sql", "w")
+    outFile = open("DDL and DML/create_gene_table.sql", "w")
 
     outFile.write("CREATE TABLE gene (\n")
     outFile.write("\tgene_id int NOT NULL AUTO_INCREMENT,\n")
-    outFile.write("\tgene_symbol varchar(100) NOT NULL UNIQUE,\n")
+    outFile.write("\tgene_symbol varchar(100) NOT NULL,\n")
     outFile.write("\tgene_name varchar(500),\n")
     outFile.write("\tPRIMARY KEY (gene_id)\n")
     outFile.write(");")
 
+# Name: create_expression
+# Summary: create the expression table DDL
+# Parameters: NA
+# Return: NA
 def create_expression():
-    outFile = open("create_expression_table.sql", "w")
+    outFile = open("DDL and DML/create_expression_table.sql", "w")
 
     outFile.write("CREATE TABLE expression (\n")
     outFile.write("\teid int NOT NULL AUTO_INCREMENT,\n")
@@ -23,19 +30,28 @@ def create_expression():
     outFile.write("\tPRIMARY KEY (eid)\n")
     outFile.write(");")
 
+# Name: create_project
+# Summary: create the project table DDL
+# Parameters: NA
+# Return: NA
 def create_project():
-    outFile = open("create_project_table.sql", "w")
+    outFile = open("DDL and DML/create_project_table.sql", "w")
 
     outFile.write("CREATE TABLE project (\n")
     outFile.write("\tproject_id varchar(30) NOT NULL,\n")
     outFile.write("\tauthors varchar(300) NOT NULL,\n")
     outFile.write("\tproj_date varchar(30),\n")
     outFile.write("\ttaxid varchar(10),\n")
+    outFile.write("\ttissue varchar(100),\n")
     outFile.write("\tPRIMARY KEY (project_id)\n")
     outFile.write(");")
 
+# Name: create_GeneOntology
+# Summary: create the Gene_Ontology table DDL
+# Parameters: NA
+# Return: NA
 def create_GeneOntolgy():
-    outFile = open("create_go_table.sql", "w")
+    outFile = open("DDL and DML/create_go_table.sql", "w")
 
     outFile.write("CREATE TABLE Gene_Ontology (\n")
     outFile.write("\tgo_id varchar(100) NOT NULL,\n")
@@ -43,8 +59,12 @@ def create_GeneOntolgy():
     outFile.write("\tPRIMARY KEY (go_id)\n")
     outFile.write(");")
 
+# Name: create_KEGGPathway
+# Summary: create the KEGG_Pathway table DDL
+# Parameters: NA
+# Return: NA
 def create_KEGGPathway():
-    outFile = open("create_kegg_table.sql", "w")
+    outFile = open("DDL and DML/create_kegg_table.sql", "w")
 
     outFile.write("CREATE TABLE KEGG_Pathway (\n")
     outFile.write("\tpathway_id varchar(100) NOT NULL,\n")
@@ -52,17 +72,25 @@ def create_KEGGPathway():
     outFile.write("\tPRIMARY KEY (pathway_id)\n")
     outFile.write(");")
 
+# Name: create_FunctionsIn
+# Summary: create the Functions_In table DDL
+# Parameters: NA
+# Return: NA
 def create_FunctionsIn():
-    outFile = open("create_functions_table.sql", "w")
+    outFile = open("DDL and DML/create_functions_table.sql", "w")
 
     outFile.write("CREATE TABLE Functions_In (\n")
     outFile.write("\tpathway_name varchar(100) NOT NULL,\n")
     outFile.write("\tgene_symbol varchar(100) NOT NULL,\n")
-    outFile.write("\tPRIMARY KEY (pathway_name, gene_symbol)\n")
+    outFile.write("\tPRIMARY KEY (fid)\n")
     outFile.write(");")
 
+# Name: create_DescribedBy
+# Summary: create the Described_By table DDL
+# Parameters: NA
+# Return: NA
 def create_DescribedBy():
-    outFile = open("create_describes_table.sql", "w")
+    outFile = open("DDL and DML/create_describes_table.sql", "w")
 
     outFile.write("CREATE TABLE Described_By (\n")
     outFile.write("\tgo_id varchar(100) NOT NULL,\n")
@@ -70,7 +98,10 @@ def create_DescribedBy():
     outFile.write("\tPRIMARY KEY (go_id, project_id)\n")
     outFile.write(");")
 
-
+# Name: format_insert_gene
+# Summary: create the insert statements for the gene table
+# Parameters: inFileName - the data file
+# Return: OutFileName - the sql file with insert statements
 def format_insert_gene(inFileName, OutFileName):
     outFile = open(OutFileName, "w")
 
@@ -96,8 +127,13 @@ def format_insert_gene(inFileName, OutFileName):
 
     outFile.close()
 
-
-def format_insert_expression(inFileName, outFileName):
+# Name: format_insert_expression
+# Summary: create the insert statements for the expression table
+# Parameters: inFileName - the data file
+#             OutFileName - the sql file with insert statements
+#             project_id - the project id
+# Return: NA
+def format_insert_expression(inFileName, outFileName, project_id):
     outFile = open(outFileName, "w")
 
     with open(inFileName, "r") as inFile:
@@ -105,7 +141,6 @@ def format_insert_expression(inFileName, outFileName):
         for line in reader:
             if len(line[0]) > 0:
                 gene_symbol = line[0]
-                project_id = line[4]
                 sample_id = line[3]
                 direction = line[2]
                 outFile.write("\nINSERT INTO expression (gene_symbol, "
@@ -114,6 +149,11 @@ def format_insert_expression(inFileName, outFileName):
                               + "\", \"" + direction + "\");")
     outFile.close()
 
+# Name: format_insert_KEGG
+# Summary: create the insert statements for the KEGG_Pathway table
+# Parameters: inFileName - the data file
+#             OutFileName - the sql file with insert statements
+# Return: NA
 def format_insert_KEGG(inFileName, outFileName):
     outFile = open(outFileName, "w")
 
@@ -130,19 +170,31 @@ def format_insert_KEGG(inFileName, outFileName):
                           + pathway_id + "\", \"" + pathway_name + "\");")
     outFile.close()
 
+# Name: format_insert_FunctionsIn
+# Summary: create the insert statements for the Functions_In table
+# Parameters: inFileName - the data file
+#             OutFileName - the sql file with insert statements
+# Return: NA
 def format_insert_FunctionsIn(inFileName, outFileName):
     outFile = open(outFileName, "w")
 
     with open(inFileName, "r") as inFile:
         reader = csv.reader(inFile)
+        pairs = {}
         for line in reader:
             gene_symbol = line[0]
             pathway_name = line[2]
+            pairs[gene_symbol + " " + pathway_name] = [gene_symbol, pathway_name]
+        for pair in pairs.keys():
             outFile.write("\nINSERT INTO Functions_In (gene_symbol, pathway_name) VALUES (\""
-                          + gene_symbol + "\", \"" + pathway_name + "\");")
+                          + pairs[pair][0] + "\", \"" + pairs[pair][1] + "\");")
     outFile.close()
 
-
+# Name: format_insert_GO
+# Summary: create the insert statements for the Gene_Ontology table
+# Parameters: inFileName - the data file
+#             OutFileName - the sql file with insert statements
+# Return: NA
 def format_insert_GO(inFileName, outFileName):
     outFile = open(outFileName, "w")
 
@@ -159,6 +211,12 @@ def format_insert_GO(inFileName, outFileName):
                           + go_id + "\", \"" + go_term + "\");")
     outFile.close()
 
+# Name: format_insert_DescribedBy
+# Summary: create the insert statements for the Described_By table
+# Parameters: inFileName - the data file
+#             OutFileName - the sql file with insert statements
+#             project - the project id
+# Return: NA
 def format_insert_DescribedBy(inFileName, outFileName, project):
     outFile = open(outFileName, "w")
 
@@ -170,6 +228,11 @@ def format_insert_DescribedBy(inFileName, outFileName, project):
                           + go_id + "\", \"" + project + "\");")
     outFile.close()
 
+# Name: format_insert_project
+# Summary: create the insert statements for the expression table
+# Parameters: inFileName - the data file
+#             outFileName - the sql file with insert statements
+# Return: NA
 def format_insert_project(inFileName, outFileName):
     outFile = open(outFileName, "w")
 
@@ -180,14 +243,15 @@ def format_insert_project(inFileName, outFileName):
             authors = line[1]
             proj_date = line[2]
             taxid = line[3]
-            outFile.write("\nINSERT INTO project (project_id, authors, proj_date, taxid) VALUES (\""
-                          + project_id + "\", \"" + authors + "\", \"" + proj_date + "\", \"" + taxid + "\");")
+            tissue = line[4]
+            outFile.write("\nINSERT INTO project (project_id, authors, proj_date, taxid, tissue) VALUES (\""
+                          + project_id + "\", \"" + authors + "\", \"" + proj_date + "\", \"" + taxid + "\", \"" + tissue + "\");")
     outFile.close()
 
 
 
 
-# Creating the sql insert files.
+# Creating the sql create table files.
 create_gene()
 create_expression()
 create_project()
@@ -195,10 +259,19 @@ create_GeneOntolgy()
 create_DescribedBy()
 create_KEGGPathway()
 create_FunctionsIn()
+create_project()
 
-format_insert_gene("expression_data_GSE156544.csv", "insert_gene_GSE156544.sql")
-format_insert_expression("expression_data_GSE156544.csv", "insert_expression_GSE156544.sql")
-format_insert_KEGG("kegg_pathway_GSE156544.csv", "insert_kegg_GSE156544.sql")
+# Creating the sql insert files
+format_insert_project("project_info_data.csv", "insert_project.sql")
+
+format_insert_gene("expression_data_all.csv", "insert_gene_all.sql")
+format_insert_KEGG("kegg_pathway_all.csv", "insert_kegg_all.sql")
+format_insert_GO("go_enrichmentall.csv", "insert_GO_all.sql")
+
+format_insert_expression("expression_data_GSE156544.csv", "insert_expression_GSE156544.sql", "GSE156544")
 format_insert_FunctionsIn("kegg_pathway_GSE156544.csv", "insert_functionsin_GSE156544.sql")
-format_insert_GO("go_enrichmentGSE156544.csv", "insert_GO_GSE156544.sql")
 format_insert_DescribedBy("go_enrichmentGSE156544.csv", "insert_describes_GSE156544.sql", "GSE156544")
+
+format_insert_expression("expression_data_BioProjectPRJNA634489.csv", "insert_expression_BioProjectPRJNA634489.sql", "BioProjectPRJNA634489")
+format_insert_FunctionsIn("kegg_pathway_BioProjectPRJNA634489.csv", "insert_functionsin_BioProjectPRJNA634489.sql")
+format_insert_DescribedBy("go_enrichmentBioProjectPRJNA634489.csv", "insert_describes_BioProjectPRJNA634489.sql", "BioProjectPRJNA634489")

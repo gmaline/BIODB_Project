@@ -5,6 +5,8 @@ from goatools.anno.genetogo_reader import Gene2GoReader
 from goatools.obo_parser import GODag
 from goatools.base import download_ncbi_associations
 from goatools.base import download_go_basic_obo
+
+import EntrezId
 import genes_NCBI_9606_ProteinCoding
 from goatools.goea.go_enrichment_ns import GOEnrichmentStudyNS
 import os
@@ -63,7 +65,6 @@ def pullGOenrichment(inputFile, project):
                 geneid2symbol[int(geneid)] = symbol
 
     infile.close()
-    print(len(geneid))
 
 
     geneids_study = geneid2symbol.keys()
@@ -81,4 +82,36 @@ def pullGOenrichment(inputFile, project):
     goeaobj.wr_xlsx("go_enrichment" + project + ".csv", goea_results_sig)
     goeaobj.wr_txt("go_enrichment" + project + ".txt", goea_results_sig)
 
+
+# Name: formatGOEnrichmentInput
+# Summary: prepares a file for the GO Enrichment. Gene IDs in first column
+#          Gene symbols in the second.
+# Parameters: inFile - gene expression data file with gene symbosl in the
+#                       first column
+#             projectID - the id of the project being processed.
+# Return: NA, creates an output file.
+def formatGOEnrichmentInput(inFile, projectID):
+    with open(inFile, 'r') as gene_symbols:
+        geneid2symbol = {}
+        read_genes = csv.reader(gene_symbols)
+
+        for line in read_genes:
+            try:
+                gene_id = EntrezId.symbol2entrezid(line[0])
+                geneid2symbol[gene_id] = line[0]
+            except:
+                print(line[0] + ": bad")
+                continue
+    gene_symbols.close()
+
+    with open("geneids_" + projectID + ".csv", 'w', newline='') as outfile:
+        out_genes = csv.writer(outfile)
+        for key in geneid2symbol.keys():
+            out_genes.writerow([key, geneid2symbol[key]])
+    outfile.close()
+
+
+formatGOEnrichmentInput("expression_data_BioProjectPRJNA634489.csv", "BioProjectPRJNA634489")
+formatGOEnrichmentInput("expression_data_GSE156544.csv", "GSE156544")
 pullGOenrichment("geneids_GSE156544.csv", "GSE156544")
+pullGOenrichment("geneids_BioProjectPRJNA634489.csv", "BioProjectPRJNA634489")
