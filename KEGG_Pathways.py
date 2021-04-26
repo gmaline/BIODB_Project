@@ -1,8 +1,7 @@
-from Bio import Entrez
 from Bio.KEGG.KGML.KGML_parser import read
 import csv
 import os
-import Entrez
+import EntrezId
 
 # Name: entrezid2KEGGid
 # Summary: reads in entrez geneids (uid) and converts to KEGG ids using the
@@ -55,16 +54,16 @@ def pullKEGGPathways(inFileName, outFileName):
         for key in gene_symbols:
             if len(key) > 0:
                 try:
-                    uid = Entrez.symbol2entrezid(key)
+                    uid = EntrezId.symbol2entrezid(key)
                     keggid = entrezid2KEGGid(uid)
                     pathids = keggId2PathwayId(keggid)
-                    with open(outFileName, 'w', newline='') as outfile:
+                    with open(outFileName, 'a', newline='') as outfile:
                         writeFile = csv.writer(outfile)
-                    for pathid in pathids:
-                        pathway_info = pathwayId2PathwayInfo(pathid)
-                        pathway_name = (str(pathway_info).split("\n"))[0].split(":")[1]
-                        pathway_id = (str(pathway_info).split("\n"))[1].split(":")[2]
-                        outfile.writerow([key, pathway_name, pathway_id])
+                        for pathid in pathids:
+                            pathway_info = pathwayId2PathwayInfo(pathid)
+                            pathway_name = (str(pathway_info).split("\n"))[0].split(":")[1]
+                            pathway_id = (str(pathway_info).split("\n"))[1].split(":")[2]
+                            writeFile.writerow([key, pathway_name, pathway_id])
                     outfile.close()
                 except:
                     print(key + ": bad")
@@ -74,4 +73,5 @@ def pullKEGGPathways(inFileName, outFileName):
 
 
 pullKEGGPathways("expression_data_GSE156544.csv", "kegg_pathway_GSE156544.csv")
+pullKEGGPathways("expression_data_BioProjectPRJNA634489.csv", "kegg_pathway_BioProjectPRJNA634489.csv")
 
