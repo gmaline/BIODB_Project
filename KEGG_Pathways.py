@@ -72,6 +72,6 @@ def pullKEGGPathways(inFileName, outFileName):
     inFile.close()
 
 
-pullKEGGPathways("expression_data_GSE156544.csv", "kegg_pathway_GSE156544.csv")
-pullKEGGPathways("expression_data_BioProjectPRJNA634489.csv", "kegg_pathway_BioProjectPRJNA634489.csv")
+pullKEGGPathways("Data/expression_data_GSE156544.csv", "Data/kegg_pathway_GSE156544.csv")
+pullKEGGPathways("Data/expression_data_BioProjectPRJNA634489.csv", "Data/kegg_pathway_BioProjectPRJNA634489.csv")
 
