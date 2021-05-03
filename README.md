@@ -20,8 +20,9 @@ This code is under the GNU General Public License v3.0 (https://choosealicense.c
 3. Generate KEGG_Pathway Data files
 4. Consolidate KEGG, GO, and Expression data files into additoinal "_all" files
 5. run **sqldb.py** - pulls data from the files, generates insert statements, creates executable .sql files.
+6. run "mysql gmaline < filename.sql" to create the database tables and population
 
-## Analysis
+## Analyses
 1. Create the database with all previous steps
 2. run **pathway_analysis.py** - queries the Functions_In table and creates some bar charts with matplotlib
 3. run **go_analysis.py** - queries the Described_By table and finds overlaps, manual annotation step in between, creates pie chart with matplotlib
