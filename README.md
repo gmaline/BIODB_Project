@@ -1,8 +1,6 @@
 # BIODB_Project
 This code is under the GNU General Public License v3.0 (https://choosealicense.com/licenses/gpl-3.0/).
 
-Disclaimer: Depending on which part of the code you are starting from to test, input and/or output data can be found in the Data folder and is described in the steps below.
-
 ## Generating Gene Expression Data:
 1. Download SOFT format file from GEO (https://ftp.ncbi.nlm.nih.gov/geo/series/GSE156nnn/GSE156544/soft/) which is input for step 2
 2. Run **SOFT.py** 
