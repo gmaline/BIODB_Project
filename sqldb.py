@@ -5,7 +5,7 @@ import csv
 # Parameters: NA
 # Return: NA
 def create_gene():
-    outFile = open("DDL and DML/create_gene_table.sql", "w")
+    outFile = open("DDL_and_DML/create_gene_table.sql", "w")
 
     outFile.write("CREATE TABLE gene (\n")
     outFile.write("\tgene_id int NOT NULL AUTO_INCREMENT,\n")
@@ -19,7 +19,7 @@ def create_gene():
 # Parameters: NA
 # Return: NA
 def create_expression():
-    outFile = open("DDL and DML/create_expression_table.sql", "w")
+    outFile = open("DDL_and_DML/create_expression_table.sql", "w")
 
     outFile.write("CREATE TABLE expression (\n")
     outFile.write("\teid int NOT NULL AUTO_INCREMENT,\n")
@@ -35,7 +35,7 @@ def create_expression():
 # Parameters: NA
 # Return: NA
 def create_project():
-    outFile = open("DDL and DML/create_project_table.sql", "w")
+    outFile = open("DDL_and_DML/create_project_table.sql", "w")
 
     outFile.write("CREATE TABLE project (\n")
     outFile.write("\tproject_id varchar(30) NOT NULL,\n")
@@ -51,7 +51,7 @@ def create_project():
 # Parameters: NA
 # Return: NA
 def create_GeneOntolgy():
-    outFile = open("DDL and DML/create_go_table.sql", "w")
+    outFile = open("DDL_and_DML/create_go_table.sql", "w")
 
     outFile.write("CREATE TABLE Gene_Ontology (\n")
     outFile.write("\tgo_id varchar(100) NOT NULL,\n")
@@ -64,7 +64,7 @@ def create_GeneOntolgy():
 # Parameters: NA
 # Return: NA
 def create_KEGGPathway():
-    outFile = open("DDL and DML/create_kegg_table.sql", "w")
+    outFile = open("DDL_and_DML/create_kegg_table.sql", "w")
 
     outFile.write("CREATE TABLE KEGG_Pathway (\n")
     outFile.write("\tpathway_id varchar(100) NOT NULL,\n")
@@ -77,7 +77,7 @@ def create_KEGGPathway():
 # Parameters: NA
 # Return: NA
 def create_FunctionsIn():
-    outFile = open("DDL and DML/create_functions_table.sql", "w")
+    outFile = open("DDL_and_DML/create_functions_table.sql", "w")
 
     outFile.write("CREATE TABLE Functions_In (\n")
     outFile.write("\tpathway_name varchar(100) NOT NULL,\n")
@@ -90,7 +90,7 @@ def create_FunctionsIn():
 # Parameters: NA
 # Return: NA
 def create_DescribedBy():
-    outFile = open("DDL and DML/create_describes_table.sql", "w")
+    outFile = open("DDL_and_DML/create_describes_table.sql", "w")
 
     outFile.write("CREATE TABLE Described_By (\n")
     outFile.write("\tgo_id varchar(100) NOT NULL,\n")
