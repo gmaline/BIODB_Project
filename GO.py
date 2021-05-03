@@ -79,8 +79,8 @@ def pullGOenrichment(inputFile, project):
         MF=ctr['MF'],  # molecular_function
         CC=ctr['CC'])) # cellular_component
 
-    goeaobj.wr_xlsx("go_enrichment" + project + ".csv", goea_results_sig)
-    goeaobj.wr_txt("go_enrichment" + project + ".txt", goea_results_sig)
+    goeaobj.wr_xlsx("Data/go_enrichment" + project + ".csv", goea_results_sig)
+    goeaobj.wr_txt("Data/go_enrichment" + project + ".txt", goea_results_sig)
 
 
 # Name: formatGOEnrichmentInput
@@ -104,14 +104,14 @@ def formatGOEnrichmentInput(inFile, projectID):
                 continue
     gene_symbols.close()
 
-    with open("geneids_" + projectID + ".csv", 'w', newline='') as outfile:
+    with open("Data/geneids_" + projectID + ".csv", 'w', newline='') as outfile:
         out_genes = csv.writer(outfile)
         for key in geneid2symbol.keys():
             out_genes.writerow([key, geneid2symbol[key]])
     outfile.close()
 
 
-formatGOEnrichmentInput("expression_data_BioProjectPRJNA634489.csv", "BioProjectPRJNA634489")
-formatGOEnrichmentInput("expression_data_GSE156544.csv", "GSE156544")
-pullGOenrichment("geneids_GSE156544.csv", "GSE156544")
-pullGOenrichment("geneids_BioProjectPRJNA634489.csv", "BioProjectPRJNA634489")
+formatGOEnrichmentInput("Data/expression_data_BioProjectPRJNA634489.csv", "BioProjectPRJNA634489")
+formatGOEnrichmentInput("Data/expression_data_GSE156544.csv", "GSE156544")
+pullGOenrichment("Data/geneids_GSE156544.csv", "GSE156544")
+pullGOenrichment("Data/geneids_BioProjectPRJNA634489.csv", "BioProjectPRJNA634489")
