@@ -123,8 +123,8 @@ def format_insert_gene(inFileName, OutFileName):
                                   + "VALUES (\""
                                   + symbol + "\", " + "null" + ");")
                 else:
-                    outFile.write("\nINSERT INTO gene (gene_symbol, gene_name)\n"
-                                  + " VALUES (\""
+                    outFile.write("\nINSERT INTO gene (gene_symbol, gene_name) \n"
+                                  + "VALUES (\""
                                   + symbol + "\", \"" + genes[symbol] + "\");")
 
     outFile.close()
@@ -146,7 +146,7 @@ def format_insert_expression(inFileName, outFileName, project_id):
                 sample_id = line[3]
                 direction = line[2]
                 outFile.write("\nINSERT INTO expression (gene_symbol, "
-                              + "project_id, sample_id, direction)\n VALUES (\""
+                              + "project_id, sample_id, direction) \nVALUES (\""
                               + gene_symbol + "\", \"" + project_id + "\", \""
                               + sample_id + "\", \"" + direction + "\");")
     outFile.close()
@@ -169,7 +169,7 @@ def format_insert_KEGG(inFileName, outFileName):
         for pathway_id in pathways.keys():
             pathway_name = pathways[pathway_id]
             outFile.write("\nINSERT INTO KEGG_Pathway (pathway_id,"
-                          + " pathway_name)\n VALUES (\""
+                          + " pathway_name) \nVALUES (\""
                           + pathway_id + "\", \"" + pathway_name + "\");")
     outFile.close()
 
@@ -190,7 +190,7 @@ def format_insert_FunctionsIn(inFileName, outFileName):
             pairs[gene_symbol + " " + pathway_name] = [gene_symbol, pathway_name]
         for pair in pairs.keys():
             outFile.write("\nINSERT INTO Functions_In (gene_symbol, "
-                          + "pathway_name)\n VALUES (\"" + pairs[pair][0]
+                          + "pathway_name) \nVALUES (\"" + pairs[pair][0]
                           + "\", \"" + pairs[pair][1] + "\");")
     outFile.close()
 
@@ -211,7 +211,7 @@ def format_insert_GO(inFileName, outFileName):
             terms[go_id] = go_term
         for go_id in terms.keys():
             go_term = terms[go_id]
-            outFile.write("\nINSERT INTO Gene_Ontology (go_id, go_term)\n VALUES"
+            outFile.write("\nINSERT INTO Gene_Ontology (go_id, go_term) \nVALUES"
                           + " (\"" + go_id + "\", \"" + go_term + "\");")
     outFile.close()
 
